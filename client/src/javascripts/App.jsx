@@ -7,8 +7,7 @@ import About from './components/About.jsx';
 const App = () => {
   return (
     <div>
-      <div className='relative z-0 bg-primary bg-transparent'>
-
+      <div className='relative z-0 bg-primary bg-transparent '>
         <div className='bg-heo-pattern bg-cover bg-no-repeat bg-center'>
           <Navbar />
           <Hero />

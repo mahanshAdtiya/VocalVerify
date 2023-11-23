@@ -172,7 +172,7 @@ def test():
 
     print("hi-3")
     samples="The signal contains a total of " + str(signal_array.shape[0]) + " samples."
-    line="If this value is greater than " + str(n_samples) + " it is due to there being multiple channels." + "\n" + "E.g. - Samples * Channels = " + str(n_samples*n_channels)
+    # line="If this value is greater than " + str(n_samples) + " it is due to there being multiple channels." + "\n" + "E.g. - Samples * Channels = " + str(n_samples*n_channels)
    
     print("hi-4")
     y, sr = librosa.load(filepath)
@@ -252,7 +252,7 @@ def test():
         print("Predicted label for the testing audio: " + predicted_label)
 
     print("yaha toh m aagya hu")
-    return {"test" : [sample_rate,framess,length,channels,samples,line],"image":[img1,img2],"result":[predicted_label]}
+    return {"test" : [sample_rate,framess,length,channels,samples],"image":[img1,img2],"result":[predicted_label]}
     # return json_result
 
 

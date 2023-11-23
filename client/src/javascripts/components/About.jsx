@@ -176,7 +176,7 @@ const About = () => {
             <button onClick={handleUpload} className="bg-red-600 py-3 text-white rounded-md w-3/12 mt-10 hover:bg-red-700 transition">
               Upload
             </button>
-            {/* {audioFile && <audio controls src={audioFile} />} */}
+            {audioFile && <audio controls src={audioFile} />}
           </div>
           <div>
             {typeof test_data.test === "undefined" ? (
@@ -194,9 +194,9 @@ const About = () => {
                       alt={`Image ${i}`}
                     />
                   ))} */}
-                  {/* {test_data.result.map((result, i) => (
+                  {test_data.result.map((result, i) => (
                     <p key={i}>{result}</p>
-                  ))} */}
+                  ))}
                 </div>
             )}
           </div>

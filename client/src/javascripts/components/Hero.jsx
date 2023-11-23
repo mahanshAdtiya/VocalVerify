@@ -38,7 +38,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className='absolute pt-1 xs:bottom-10 bottom-16  w-full flex justify-center items-center'>
+      <div className='absolute pt-8 xs:bottom-10 bottom-16  w-full flex justify-center items-center'>
 
         <a href="#about">
 
