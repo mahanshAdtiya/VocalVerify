@@ -16,6 +16,9 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import librosa
 from io import BytesIO
 import base64
+import warnings
+
+warnings.filterwarnings("ignore")
 
 app = Flask(__name__)
 
