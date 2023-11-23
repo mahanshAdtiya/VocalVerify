@@ -1,6 +1,8 @@
 import React from 'react';
 import Work from "./components/Work.jsx";
 import Navbar from './components/NavBar.jsx';
+import Hero from './components/Hero.jsx';
+import About from './components/About.jsx';
 // import FloatingObjects from './FloatingObjects';
 
 const App = () => {
@@ -10,8 +12,9 @@ const App = () => {
 
         <div className='bg-heo-pattern bg-cover bg-no-repeat bg-center'>
           <Navbar />
-          {/* <Hero /> */}
+          <Hero />
         </div>
+        <About />
         <Work/>
         {/* <FloatingObjects/> */}
       </div>
