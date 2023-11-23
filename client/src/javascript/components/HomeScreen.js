@@ -81,64 +81,65 @@ function HomeScreen() {
   };
 
   return (
-    <div>
-      <div>
-        <h1> this is how site works - sample audio h for info purpose </h1>
-        <div>
-          {typeof intro_data.intro === "undefined" ? (
-            <p>loading...</p>
-          ) : (
-            <div>
-              <div>
-                {intro_data.intro.map((intro, i) => (
-                  <p key={i}>{intro}</p>
-                ))}
-                {intro_data.image.map((image, i) => (
-                  <img
-                    key={i}
-                    src={`data:image/png;base64,${image}`}
-                    alt={`Image ${i}`}
-                  />
-                ))}
-                {intro_data.result.map((result, i) => (
-                  <p key={i}>{result}</p>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-      <div>
-        <h1>yaha p test krne wali file upload kro</h1>
-        <input type="file" accept=".wav" onChange={handleFileChange} />
-        <button onClick={handleUpload}>Upload</button>
-        {audioFile && <audio controls src={audioFile} />}
-      </div>
-      <div>
-        {typeof test_data.test === "undefined" ? (
-          <p>loading...</p>
-        ) : (
-          <div>
-            <div>
-              <h1>ab yaha p model predict krega</h1>
-              {test_data.test.map((intro, i) => (
-                <p key={i}>{intro}</p>
-              ))}
-              {test_data.image.map((image, i) => (
-                <img
-                  key={i}
-                  src={`data:image/png;base64,${image}`}
-                  alt={`Image ${i}`}
-                />
-              ))}
-              {test_data.result.map((result, i) => (
-                <p key={i}>{result}</p>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+    <div><h1>Mahansh Aditya</h1></div>
+    // <div>
+    //   <div>
+    //     <h1> this is how site works - sample audio h for info purpose </h1>
+    //     <div>
+    //       {typeof intro_data.intro === "undefined" ? (
+    //         <p>loading...</p>
+    //       ) : (
+    //         <div>
+    //           <div>
+    //             {intro_data.intro.map((intro, i) => (
+    //               <p key={i}>{intro}</p>
+    //             ))}
+    //             {intro_data.image.map((image, i) => (
+    //               <img
+    //                 key={i}
+    //                 src={`data:image/png;base64,${image}`}
+    //                 alt={`Image ${i}`}
+    //               />
+    //             ))}
+    //             {intro_data.result.map((result, i) => (
+    //               <p key={i}>{result}</p>
+    //             ))}
+    //           </div>
+    //         </div>
+    //       )}
+    //     </div>
+    //   </div>
+    //   <div>
+    //     <h1>yaha p test krne wali file upload kro</h1>
+    //     <input type="file" accept=".wav" onChange={handleFileChange} />
+    //     <button onClick={handleUpload}>Upload</button>
+    //     {audioFile && <audio controls src={audioFile} />}
+    //   </div>
+    //   <div>
+    //     {typeof test_data.test === "undefined" ? (
+    //       <p>loading...</p>
+    //     ) : (
+    //       <div>
+    //         <div>
+    //           <h1>ab yaha p model predict krega</h1>
+    //           {test_data.test.map((intro, i) => (
+    //             <p key={i}>{intro}</p>
+    //           ))}
+    //           {test_data.image.map((image, i) => (
+    //             <img
+    //               key={i}
+    //               src={`data:image/png;base64,${image}`}
+    //               alt={`Image ${i}`}
+    //             />
+    //           ))}
+    //           {test_data.result.map((result, i) => (
+    //             <p key={i}>{result}</p>
+    //           ))}
+    //         </div>
+    //       </div>
+    //     )}
+    //   </div>
+    // </div>
   );
 }
 

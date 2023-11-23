@@ -1,6 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 *{
   margin: 0;
 }
-/* .App{
-  background-color:rgb(0, 0, 0)
-} */
+.App{
+  background-color:rgb(232, 232, 232)
+}
