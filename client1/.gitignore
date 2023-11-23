@@ -1,13 +1,9 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
 # dependencies
-/client/node_modules
-/client/package-lock.json
-
-/client1/node_modules
-/client1/package-lock.json
-
+/node_modules
 /.pnp
 .pnp.js
-
 AUDIO/
 DEMONSTRATION
 # testing
@@ -15,7 +11,6 @@ DEMONSTRATION
 
 # production
 /build
-portfolio/
 
 # misc
 .DS_Store

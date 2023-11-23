@@ -1,3 +1,4 @@
+import json
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
 import os
@@ -88,115 +89,7 @@ filepath=""
 
 @app.route('/intro')
 def intro():
-    margot_robbie_speech = wave.open('../AUDIO/REAL/margot-original.wav', 'rb')
-    margot_robbie_fake_speech = wave.open('../AUDIO/FAKE/margot-to-ryan.wav', 'rb')
-
-    # print(margot_robbie_speech)
-    # print("hi-2")
-    sample_freq = margot_robbie_speech.getframerate()
-    n_samples = margot_robbie_speech.getnframes()
-    t_audio = n_samples/sample_freq
-    n_channels = margot_robbie_speech.getnchannels()
-
-    sample_rate="The samping rate of the audio file is " + str(sample_freq) + "Hz, or " + str(sample_freq/1000) + "kHz"
-    frames="The audio contains a total of " + str(n_samples) + " frames or samples"
-    length="The length of the audio file is " + str(t_audio) + " seconds"
-    channels="The audio file has " + str(n_channels) + " channels."
-
-    signal_wave = margot_robbie_speech.readframes(n_samples)
-    signal_array = np.frombuffer(signal_wave, dtype=np.int16)
-
-
-    samples="The signal contains a total of " + str(signal_array.shape[0]) + " samples."
-    line="If this value is greater than " + str(n_samples) + " it is due to there being multiple channels." + "\n" + "E.g. - Samples * Channels = " + str(n_samples*n_channels)
-
-    # Split the channels
-    l_channel = signal_array[0::2]
-    r_channel = signal_array[1::2]
-
-    timestamps = np.linspace(0, n_samples/sample_freq, num=n_samples)
-    plt.figure(figsize=(10, 5))
-    plt.plot(timestamps, l_channel)
-    plt.title('Left Channel')
-    plt.ylabel('Signal Value')
-    plt.xlabel('Time (s)')
-    plt.xlim(0, t_audio)
-    img_buf = BytesIO()
-    plt.savefig(img_buf, format='png')
-    img_buf.seek(0)
-    img1 = base64.b64encode(img_buf.read()).decode('utf-8')
-
-    plt.figure(figsize=(10, 5))
-    plt.plot(timestamps, r_channel)
-    plt.title('Right Channel')
-    plt.ylabel('Signal Value')
-    plt.xlabel('Time (s)')
-    plt.xlim(0, t_audio)
-    img_buf = BytesIO()
-    plt.savefig(img_buf, format='png')
-    img_buf.seek(0)
-    img2 = base64.b64encode(img_buf.read()).decode('utf-8')
-
-    plt.figure(figsize=(10, 5))
-    plt.specgram(l_channel, Fs=sample_freq, vmin=-20, vmax=50)
-    plt.title('Left Channel')
-    plt.ylabel('Frequency (Hz)')
-    plt.xlabel('Time (s)')
-    plt.xlim(0, t_audio)
-    plt.colorbar()
-    img_buf = BytesIO()
-    plt.savefig(img_buf, format='png')
-    img_buf.seek(0)
-    img3 = base64.b64encode(img_buf.read()).decode('utf-8')
-
-    plt.figure(figsize=(10, 5))
-    plt.specgram(r_channel, Fs=sample_freq, vmin=-20, vmax=50)
-    plt.title('Right Channel')
-    plt.ylabel('Frequency (Hz)')
-    plt.xlabel('Time (s)')
-    plt.xlim(0, t_audio)
-    plt.colorbar()
-    img_buf = BytesIO()
-    plt.savefig(img_buf, format='png')
-    img_buf.seek(0)
-    img4 = base64.b64encode(img_buf.read()).decode('utf-8')
-
-    sample_freq_fake = margot_robbie_fake_speech.getframerate()
-    n_samples_fake = margot_robbie_fake_speech.getnframes()
-    t_audio_fake = n_samples/sample_freq
-    n_channels_fake = margot_robbie_fake_speech.getnchannels()
-
-    signal_wave_fake = margot_robbie_fake_speech.readframes(n_samples_fake)
-    signal_array_fake = np.frombuffer(signal_wave_fake, dtype=np.int16)
-
-
-    l_channel_fake = signal_array_fake[0::2]
-
-    plt.figure(figsize=(10, 5))
-    plt.specgram(l_channel, Fs=sample_freq, vmin=-20, vmax=50)
-    plt.title('Left Channel - REAL MARGOT ROBBIE')
-    plt.ylabel('Frequency (Hz)')
-    plt.xlabel('Time (s)')
-    plt.xlim(0, t_audio)
-    plt.colorbar()
-    img_buf = BytesIO()
-    plt.savefig(img_buf, format='png')
-    img_buf.seek(0)
-    img5 = base64.b64encode(img_buf.read()).decode('utf-8')
-
-    plt.figure(figsize=(10, 5))
-    plt.specgram(l_channel_fake, Fs=sample_freq_fake, vmin=-20, vmax=50)
-    plt.title('Left Channel - FAKE MARGOT ROBBIE (Ryan Gosling)')
-    plt.ylabel('Frequency (Hz)')
-    plt.xlabel('Time (s)')
-    plt.xlim(0, t_audio_fake)
-    plt.colorbar()
-    img_buf = BytesIO()
-    plt.savefig(img_buf, format='png')
-    img_buf.seek(0)
-    img6 = base64.b64encode(img_buf.read()).decode('utf-8')
-
-    return {"intro" : [sample_rate,frames,length,channels,samples,line],"image":[img1,img2,img3,img4,img5,img6],"result":[accuracy,precision,recall,f1,mcc,roc_au]}
+    return {"intro" : [],"image":[],"result":[accuracy,precision,recall,f1,mcc,roc_au]}
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -225,109 +118,139 @@ def upload_file():
     except Exception as e:
         return jsonify({'error': f'Error uploading file: {str(e)}'}), 500
 
+def extract_features(file_path, segment_length, file_name):
+    try:
+        y, sr = librosa.load(file_path)
+        num_segments = int(np.ceil(len(y) / float(segment_length * sr)))
+
+        features = []
+
+        for i in range(num_segments):
+            start_frame = i * segment_length * sr
+            end_frame = min(len(y), (i + 1) * segment_length * sr)
+
+            y_segment = y[start_frame:end_frame]
+
+            chroma_stft = np.mean(librosa.feature.chroma_stft(y=y_segment, sr=sr))
+            rms = np.mean(librosa.feature.rms(y=y_segment))
+            spec_cent = np.mean(librosa.feature.spectral_centroid(y=y_segment, sr=sr))
+            spec_bw = np.mean(librosa.feature.spectral_bandwidth(y=y_segment, sr=sr))
+            rolloff = np.mean(librosa.feature.spectral_rolloff(y=y_segment, sr=sr))
+            zcr = np.mean(librosa.feature.zero_crossing_rate(y_segment))
+            mfccs = librosa.feature.mfcc(y=y_segment, sr=sr)
+            mfccs_mean = np.mean(mfccs, axis=1)
+
+            features.append([chroma_stft, rms, spec_cent, spec_bw, rolloff, zcr, *mfccs_mean])
+
+        return features
+    except Exception as e:
+        print(f"Error processing {file_path}: {e}")
+        return None
+
 @app.route('/test')
 def test():
     
     test = wave.open(filepath, 'rb')
 
     # print(margot_robbie_speech)
-    # print("hi-2")
+    print("hi-2")
     sample_freq = test.getframerate()
     n_samples = test.getnframes()
     t_audio = n_samples/sample_freq
     n_channels = test.getnchannels()
 
     sample_rate="The samping rate of the audio file is " + str(sample_freq) + "Hz, or " + str(sample_freq/1000) + "kHz"
-    frames="The audio contains a total of " + str(n_samples) + " frames or samples"
+    framess="The audio contains a total of " + str(n_samples) + " frames or samples"
     length="The length of the audio file is " + str(t_audio) + " seconds"
     channels="The audio file has " + str(n_channels) + " channels."
 
     signal_wave = test.readframes(n_samples)
     signal_array = np.frombuffer(signal_wave, dtype=np.int16)
 
-
+    print("hi-3")
     samples="The signal contains a total of " + str(signal_array.shape[0]) + " samples."
     line="If this value is greater than " + str(n_samples) + " it is due to there being multiple channels." + "\n" + "E.g. - Samples * Channels = " + str(n_samples*n_channels)
-
-    # Split the channels
-    l_channel = signal_array[0::2]
-    r_channel = signal_array[1::2]
-
-    timestamps = np.linspace(0, n_samples/sample_freq, num=n_samples)
-    
-    plt.figure(figsize=(10, 5))
-    plt.plot(timestamps, l_channel)
-    plt.title('Left Channel')
-    plt.ylabel('Signal Value')
-    plt.xlabel('Time (s)')
-    plt.xlim(0, t_audio)
+   
+    print("hi-4")
+    y, sr = librosa.load(filepath)
+    spectrogram = librosa.feature.melspectrogram(y=y, sr=sr)
+    db_spectrogram = librosa.power_to_db(spectrogram, ref=np.max)
+    plt.figure(figsize=(12, 4))
+    librosa.display.specshow(db_spectrogram, sr=sr, x_axis='time', y_axis='mel')
+    plt.colorbar(format='%+2.0f dB')
+    plt.title('Spectrogram')
     img_buf = BytesIO()
     plt.savefig(img_buf, format='png')
     img_buf.seek(0)
     img1 = base64.b64encode(img_buf.read()).decode('utf-8')
+    print("hi-5")
 
-    plt.figure(figsize=(10, 5))
-    plt.plot(timestamps, r_channel)
-    plt.title('Right Channel')
-    plt.ylabel('Signal Value')
-    plt.xlabel('Time (s)')
-    plt.xlim(0, t_audio)
-    img_buf = BytesIO()
-    plt.savefig(img_buf, format='png')
-    img_buf.seek(0)
-    img2 = base64.b64encode(img_buf.read()).decode('utf-8')
+    with wave.open(filepath, 'rb') as wf:
+        num_frames = wf.getnframes()
+        frames = wf.readframes(num_frames)
+        signal = np.frombuffer(frames, dtype=np.int16)
+        frame_rate = wf.getframerate()
 
-    plt.figure(figsize=(10, 5))
-    plt.specgram(l_channel, Fs=sample_freq, vmin=-20, vmax=50)
-    plt.title('Left Channel')
-    plt.ylabel('Frequency (Hz)')
-    plt.xlabel('Time (s)')
-    plt.xlim(0, t_audio)
-    plt.colorbar()
-    img_buf = BytesIO()
-    plt.savefig(img_buf, format='png')
-    img_buf.seek(0)
-    img3 = base64.b64encode(img_buf.read()).decode('utf-8')
+        # Calculate time array based on the duration of the audio
+        duration = num_frames / frame_rate
+        time = np.linspace(0, duration, len(signal))
 
-    plt.figure(figsize=(10, 5))
-    plt.specgram(r_channel, Fs=sample_freq, vmin=-20, vmax=50)
-    plt.title('Right Channel')
-    plt.ylabel('Frequency (Hz)')
-    plt.xlabel('Time (s)')
-    plt.xlim(0, t_audio)
-    plt.colorbar()
-    img_buf = BytesIO()
-    plt.savefig(img_buf, format='png')
-    img_buf.seek(0)
-    img4 = base64.b64encode(img_buf.read()).decode('utf-8')
+        plt.figure(figsize=(10, 4))
+        plt.plot(time, signal / 10000, linewidth=0.5)
+
+        plt.title('Waveform of {}'.format(filepath))
+        plt.xlabel('Time (s)')
+        plt.ylabel('Amplitude')
+        plt.grid(True)
+
+        img_buf = BytesIO()
+        plt.savefig(img_buf, format='png')
+        img_buf.seek(0)
+        img2 = base64.b64encode(img_buf.read()).decode('utf-8')
+
 
     print(name)
     testing_audio_path = filepath  # Replace this with the actual path to your testing audio file
-    testing_audio, sr = librosa.load(testing_audio_path, sr=None)
+    # testing_audio, sr = librosa.load(testing_audio_path, sr=None)
 
-    chroma_stft = np.mean(librosa.feature.chroma_stft(y=testing_audio, sr=sr))
-    rms = np.mean(librosa.feature.rms(y=testing_audio))
-    spectral_centroid = np.mean(librosa.feature.spectral_centroid(y=testing_audio, sr=sr))
-    spectral_bandwidth = np.mean(librosa.feature.spectral_bandwidth(y=testing_audio, sr=sr))
-    rolloff = np.mean(librosa.feature.spectral_rolloff(y=testing_audio, sr=sr))
-    zero_crossing_rate = np.mean(librosa.feature.zero_crossing_rate(y=testing_audio))
+    # chroma_stft = np.mean(librosa.feature.chroma_stft(y=testing_audio, sr=sr))
+    # rms = np.mean(librosa.feature.rms(y=testing_audio))
+    # spectral_centroid = np.mean(librosa.feature.spectral_centroid(y=testing_audio, sr=sr))
+    # spectral_bandwidth = np.mean(librosa.feature.spectral_bandwidth(y=testing_audio, sr=sr))
+    # rolloff = np.mean(librosa.feature.spectral_rolloff(y=testing_audio, sr=sr))
+    # zero_crossing_rate = np.mean(librosa.feature.zero_crossing_rate(y=testing_audio))
 
-    mfccs = librosa.feature.mfcc(y=testing_audio, sr=sr, n_mfcc=20)
-    mfccs_mean = np.mean(mfccs, axis=1)
-    feature_vector = np.hstack((chroma_stft, rms, spectral_centroid, spectral_bandwidth, rolloff, zero_crossing_rate, mfccs_mean))
+    # mfccs = librosa.feature.mfcc(y=testing_audio, sr=sr, n_mfcc=20)
+    # mfccs_mean = np.mean(mfccs, axis=1)
+    # feature_vector = np.hstack((chroma_stft, rms, spectral_centroid, spectral_bandwidth, rolloff, zero_crossing_rate, mfccs_mean))
 
-    if feature_vector.shape[0] != 26:
+    # if feature_vector.shape[0] != 26:
+    #     print("Error: Incorrect number of features extracted from the testing audio")
+    # else:
+    #     # Predict using the trained model
+    #     prediction = model.predict([feature_vector])
+
+    #     # Convert the prediction to the corresponding label
+    #     predicted_label = "REAL" if prediction[0] == 1 else "FAKE"
+    #     predicted_label="Predicted label for the testing audio: " + predicted_label
+
+    testing_audio_features = extract_features(testing_audio_path, 5, "testing_audio")
+
+    feature_vector = np.mean(testing_audio_features, axis=0)
+
+    if len(feature_vector) != 26:
         print("Error: Incorrect number of features extracted from the testing audio")
     else:
-        # Predict using the trained model
+
         prediction = model.predict([feature_vector])
 
-        # Convert the prediction to the corresponding label
         predicted_label = "REAL" if prediction[0] == 1 else "FAKE"
-        predicted_label="Predicted label for the testing audio: " + predicted_label
+
+        print("Predicted label for the testing audio: " + predicted_label)
 
     print("yaha toh m aagya hu")
-    return {"test" : [sample_rate,frames,length,channels,samples,line],"image":[img1,img2,img3,img4],"result":[predicted_label]}
+    return {"test" : [sample_rate,framess,length,channels,samples,line],"image":[img1,img2],"result":[predicted_label]}
+    # return json_result
 
 
 if __name__ == '__main__':

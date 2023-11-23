@@ -110,6 +110,9 @@ function HomeScreen() {
       <div>
         <h1>yaha p test krne wali file upload kro</h1>
         <input type="file" accept=".wav" onChange={handleFileChange} />
+        {/* <button onClick={handleUpload} className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
+          Upload
+        </button> */}
         <button onClick={handleUpload}>Upload</button>
         {audioFile && <audio controls src={audioFile} />}
       </div>
@@ -137,28 +140,8 @@ function HomeScreen() {
           </div>
         )}
       </div>
-      <div className="relative h-full w-full">
-            
-            <div className="bg-black w-full h-full lg:bg-opacity-50">
-
-                {/* <nav className="px-12 py-5">
-                    <img src="/images/logo.png" alt="Logo" className="h-12"/>
-                </nav> */}
-
-                <div className="flex justify-center">
-
-                <div className="bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
-
-
-                    <button onClick={handleUpload} className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
-                        Upload
-                    </button>
-                    
-                </div>
-                </div>
-            </div>
-        </div>
     </div>
+  
   );
 }
 

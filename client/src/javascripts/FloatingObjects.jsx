@@ -1,7 +1,7 @@
 import React from 'react';
-import '../css/Floating_objects.css';
+import "../css/FloatingObject.css"
 
-function Floating_objects() {
+function FloatingOjects() {
   return (
     <div className="circles">
       <div></div>
@@ -18,4 +18,4 @@ function Floating_objects() {
   );
 }
 
-export default Floating_objects;
+export default FloatingOjects;
