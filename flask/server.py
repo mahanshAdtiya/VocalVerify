@@ -172,8 +172,12 @@ def test():
 
     print("hi-3")
     samples="The signal contains a total of " + str(signal_array.shape[0]) + " samples."
+<<<<<<< HEAD
     # line="If this value is greater than " + str(n_samples) + " it is due to there being multiple channels." + "\n" + "E.g. - Samples * Channels = " + str(n_samples*n_channels)
    
+=======
+    
+>>>>>>> a181ae1124913cb4bd1b81e8a3fe67767d37204f
     print("hi-4")
     y, sr = librosa.load(filepath)
     spectrogram = librosa.feature.melspectrogram(y=y, sr=sr)
