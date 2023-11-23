@@ -69,12 +69,12 @@ for train_index , test_index in kf.split(X):
 end = time.time()
 timeTaken = (end - start)
 time_taken = "Model trained in: " + str( round(timeTaken, 2) ) + " seconds."
-accuracy="Accuracy: " + str( round(np.mean(acc_score)*100, 3) ) + "% (" + str( round(np.std(acc_score)*100, 3) ) + ")"
-precision="Precision: " + str( round(np.mean(prec_score), 3) ) + " (" + str( round(np.std(prec_score), 3) ) + ")"
-recall="Recall: " + str( round(np.mean(rec_score), 3) ) + " (" + str( round(np.std(rec_score), 3) ) + ")"
-f1="F1-Score: " + str( round(np.mean(f1s), 3) ) + " (" + str( round(np.std(f1s), 3) ) + ")"
-mcc="MCC: " + str( round(np.mean(MCCs), 3) ) + " (" + str( round(np.std(MCCs), 3) ) + ")"
-roc_au="ROC AUC: " + str( round(np.mean(ROCareas), 3) ) + " (" + str( round(np.std(ROCareas), 3) ) + ")"
+accuracy="Accuracy: " + str( round(np.mean(acc_score)*100, 3) ) + "%"
+precision="Precision: " + str( round(np.mean(prec_score), 3) )
+recall="Recall: " + str( round(np.mean(rec_score), 3) )
+f1="F1-Score: " + str( round(np.mean(f1s), 3) )
+mcc="MCC: " + str( round(np.mean(MCCs), 3) )
+roc_au="ROC AUC: " + str( round(np.mean(ROCareas), 3) )
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'wav'}
