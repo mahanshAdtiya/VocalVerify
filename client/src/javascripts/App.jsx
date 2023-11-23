@@ -1,5 +1,4 @@
 import React from 'react';
-import Work from "./components/Work.jsx";
 import Navbar from './components/NavBar.jsx';
 import Hero from './components/Hero.jsx';
 import About from './components/About.jsx';
@@ -15,7 +14,7 @@ const App = () => {
           <Hero />
         </div>
         <About />
-        <Work/>
+        {/* <Work/> */}
         {/* <FloatingObjects/> */}
       </div>
 

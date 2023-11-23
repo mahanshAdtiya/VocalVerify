@@ -4,15 +4,7 @@ function Work() {
     const [intro_data, setData] = useState([{}]);
     const [test_data, settestData] = useState([{}]);
     const [buttonClicked, setButtonClicked] = useState(false);
-    // useEffect(() => {
-    //   fetch("/intro")
-    //     .then((res) => res.json())
-    //     .then((introData) => {
-    //       setData(introData);
-    //       console.log(introData);
-    //     });
-    // }, []);
-  
+
     useEffect(() => {
       fetch("/intro")
         .then((res) => {
@@ -33,21 +25,6 @@ function Work() {
           console.error("Error fetching or parsing data:", error);
         });
     }, []);
-  
-    // useEffect(() => {
-    //   if (buttonClicked) {
-    //     // Fetch data or perform any side effect
-    //     fetch("/test")
-    //       .then((res) => res.json())
-    //       .then((testdata) => {
-    //         settestData(testdata);
-    //         console.log(testdata);
-    //       });
-  
-    //     // Reset the buttonClicked state to false after the effect runs
-    //     setButtonClicked(false);
-    //   }
-    // }, [buttonClicked]);
   
     useEffect(() => {
       const fetchData = async () => {

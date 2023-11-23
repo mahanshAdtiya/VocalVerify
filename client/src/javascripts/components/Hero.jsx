@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { styles } from '../styles'
 
-// import Spline from '@splinetool/react-spline';
+import Spline from '@splinetool/react-spline';
 
 const Hero = () => {
   return (
@@ -17,15 +17,12 @@ const Hero = () => {
 
           <div className='flex flex-col justify-center items-center mt-5'>
 
-            {/* <div className='w-5 h-5 rounded-full bg-[#960000]' /> */}
-            {/* <div className='w-1 sm:h-80 h-40 red-gradient' /> */}
-
           </div>
             <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] w-max'>
               <div >
                 
                 <div className='flex justify-center w-full items-center flex-col'>
-                  <p className='text-colour w-full text-4xl md:text-8xl uppercase tracking-wide '>
+                  <p className='text-white w-full text-4xl md:text-8xl uppercase tracking-wide '>
                     VocalVerify
                   </p>
                   <h2 className=' text-3xl lg:text-[25px] sm:text-[15px] xs:text-[10px] text-gray-400 font-thin'>
@@ -36,12 +33,12 @@ const Hero = () => {
 
             </div>
 
-              {/* <Spline scene="https://prod.spline.design/AXK9pMgh46IPcKfs/scene.splinecode" /> */}
+            <Spline scene="https://prod.spline.design/O8KxTtahM2JKsT3R/scene.splinecode" />
+
         </div>
       </div>
-      {/* <ComputersCanvas/> */}
 
-      <div className='absolute pt-10 xs:bottom-10 bottom-16  w-full flex justify-center items-center'>
+      <div className='absolute pt-1 xs:bottom-10 bottom-16  w-full flex justify-center items-center'>
 
         <a href="#about">
 
@@ -56,7 +53,7 @@ const Hero = () => {
                 repeat: Infinity,
                 repeatType: 'loop'
               }}
-              className='w-2 h-2 rounded-full bg-colour mb-1'
+              className='w-2 h-2 rounded-full bg-white mb-1'
             />
           </div>
 
