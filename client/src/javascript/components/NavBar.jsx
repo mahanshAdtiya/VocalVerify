@@ -7,29 +7,19 @@ const NavBar = ()=>{
         <div className="w-full">
             <div
             className="px-4
-            md:px-16
-            py-6
+            md:px-10
+            py-5
             flex
             flex-row
             items-center
             transition
             duration-1000
-            bg-zinc-900 
+            bg-colour 
             bg-opacity-90
             cursor-pointer"
             >
                 <div className="cursor-pointer">
                     <img className="h-14 lg:h-17"  src={logo} alt='Logo'/>
-                </div>
-
-                <div className="
-                flex-row
-                ml-8
-                gap-7
-                hidden
-                lg:flex
-                ">
-
                 </div>
 
                 <div className="flex flex-row ml-auto gap-7 items-center">
